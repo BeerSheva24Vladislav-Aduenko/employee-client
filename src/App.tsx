@@ -1,35 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Spinner, Table, Text, Image } from "@chakra-ui/react";
+import { useEmployees } from "./hooks/useEmployees";
+const App = () => {
+  const { data: employees, isLoading, error } = useEmployees();
 
-function App() {
-  const [count, setCount] = useState(0)
+  const getData = (date: string) => {
+    const d = new Date(date);
+    const day = d.getDate().toString().padStart(2, "0");
+    const month = (d.getMonth() + 1).toString().padStart(2, "0");
+    const year = d.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
 
-  return (
+  
+  return isLoading ? (
+    <Spinner></Spinner>
+  ) : (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {error?.message ? (
+        <Text color="red" fontSize={"2.5rem"}>
+          {error.message}
+        </Text>
+      ) : (
+        <Table.Root size="sm">
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeader>Avatar</Table.ColumnHeader>
+              <Table.ColumnHeader>Name</Table.ColumnHeader>
+              <Table.ColumnHeader>Birth Day</Table.ColumnHeader>
+              <Table.ColumnHeader>Job Department</Table.ColumnHeader>
+              <Table.ColumnHeader textAlign="end">Salary</Table.ColumnHeader>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {employees?.map((e) => (
+              <Table.Row key={e.id}>
+                <Table.Cell>
+                  <Image
+                    src={e.avatar}
+                    alt={e.fullName}
+                    rounded="md"
+                    width="100px"
+                  />
+                </Table.Cell>
+                <Table.Cell>{e.fullName}</Table.Cell>
+                <Table.Cell>{getData(e.birthDate)}</Table.Cell>
+                <Table.Cell>{e.department}</Table.Cell>
+                <Table.Cell textAlign="end">{e.salary}</Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
+      )}
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
