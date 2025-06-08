@@ -16,6 +16,7 @@
     "@emotion/react": "^11.14.0",
     "@tanstack/react-query": "^5.77.2",
     "axios": "^1.9.0",
+    "employees": "file:",
     "framer-motion": "^12.15.0",
     "jsdom": "^26.1.0",
     "lodash": "^4.17.21",
