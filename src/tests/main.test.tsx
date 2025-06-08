@@ -40,7 +40,7 @@ describe("Nav items according to auth data", () => {
 
     renderLayout();
 
-    // screen.debug(undefined, Infinity);
+    // screen.debug(undefined, Infinity); - 1ый что выведет(по умолчанию document.body), 2ое количество символов(Infinity без ограничения)
     expect(screen.queryByText(/login/i)).not.toBeInTheDocument();
     expect(screen.getByText(/logout/i)).toBeInTheDocument();
     expect(screen.getByText(/home/i)).toBeInTheDocument();
