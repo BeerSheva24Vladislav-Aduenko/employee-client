@@ -1,0 +1,51 @@
+import Employee from "../../../model/Employee";
+export const employees: Employee[] = [
+  {
+    id: "1",
+    fullName: "Vasya Pupkin",
+    birthDate: "2000-01-01",
+    avatar: "a",
+    department: "QA",
+    salary: 10000,
+  },
+  {
+    id: "2",
+    fullName: "Vasya Pupkin",
+    birthDate: "2000-01-01",
+    avatar: "a",
+    department: "QA",
+    salary: 10000,
+  },
+  {
+    id: "3",
+    fullName: "Vasya Pupkin",
+    birthDate: "2000-01-01",
+    avatar: "a",
+    department: "QA",
+    salary: 10000,
+  },
+  {
+    id: "4",
+    fullName: "Vasya Pupkin",
+    birthDate: "2000-01-01",
+    avatar: "a",
+    department: "QA",
+    salary: 10000,
+  },
+  {
+    id: "5",
+    fullName: "Vasya Pupkin",
+    birthDate: "2000-01-01",
+    avatar: "a",
+    department: "QA",
+    salary: 10000,
+  },
+  {
+    id: "6",
+    fullName: "Vasya Pupkin",
+    birthDate: "2000-01-01",
+    avatar: "a",
+    department: "QA",
+    salary: 10000,
+  },
+];

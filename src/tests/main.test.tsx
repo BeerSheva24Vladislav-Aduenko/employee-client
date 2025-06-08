@@ -5,6 +5,10 @@ import { useUserDataStore } from "../state-management/store";
 import Layout from "../components/pages/Layout";
 import { Provider } from "../components/ui/provider";
 import { BrowserRouter } from "react-router-dom";
+import { employees } from "./_mocks_/data/employees-mock";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import EmployeesTable from "../components/EmployeesTable";
+import apiClientTest from "./_mocks_/services/ApiClientTest";
 
 const renderLayout = () => {
   render(
@@ -62,5 +66,50 @@ describe("Nav items according to auth data", () => {
     expect(screen.getByText(/statistics/i)).toBeInTheDocument();
     expect(screen.getByText(/search/i)).toBeInTheDocument();
     expect(screen.getByText(/add/i)).toBeInTheDocument();
+  });
+});
+
+describe(`rendering ${employees.length} table cells in the component EmployeesTable`, () => {
+  it(` User has role "User" no addition action cells should be render in the table`, async () => {
+    useUserDataStore.setState({
+      userData: { username: "user", role: "USER", token: "token" },
+    });
+    render(
+      <Provider>
+        <QueryClientProvider client={new QueryClient()}>
+          <EmployeesTable queryFn={() => apiClientTest.getAll()} />
+        </QueryClientProvider>
+      </Provider>
+    );
+    await expect(screen.findAllByText(/vasya/i)).resolves.toHaveLength(
+      employees.length
+    );
+    await expect(
+      screen.findByRole("button", { name: /delete/i })
+    ).rejects.toThrow();
+  });
+});
+
+describe(`rendering ${employees.length} table cells in the component EmployeesTable`, () => {
+  it(` User has role "Admin" have addition action cells in the table`, async () => {
+    useUserDataStore.setState({
+      userData: { username: "user", role: "ADMIN", token: "token" },
+    });
+    render(
+      <Provider>
+        <QueryClientProvider client={new QueryClient()}>
+          <EmployeesTable queryFn={() => apiClientTest.getAll()} />
+        </QueryClientProvider>
+      </Provider>
+    );
+    await expect(screen.findAllByText(/vasya/i)).resolves.toHaveLength(
+      employees.length
+    );
+    // await expect(screen.findAllByRole("row")).resolves.toHaveLength(      Проверка по количеству строк
+    //   employees.length + 1
+    // ); 
+    await expect(
+      screen.findAllByRole("button", { name: /delete/i })
+    ).resolves.toHaveLength(employees.length);
   });
 });
